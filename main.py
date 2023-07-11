@@ -129,7 +129,3 @@ def recomendacion(title:str):
 
   # Devolver las películas recomendadas
   return [dataMl['title'].iloc[movie_indices].to_json(orient= 'records')]
-
-
-
-uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
