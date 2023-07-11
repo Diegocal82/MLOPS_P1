@@ -15,6 +15,6 @@ Este es un proyecto de Machine Learning. El proyecto se desarrolló en varias et
 
 ## Links
 
-  * [API de Consultas](https://mlopsp1diego.onrender.com/)
+  * [API de Consultas](https://mlopsp1diego.onrender.com/docs#/)
     
 
