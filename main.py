@@ -7,7 +7,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 
 
-app = FastAPI()
+app = FastAPI(title='Movie Recommendation',
+              description='Esta app recomienda películas con características similares.',
+              version='1.0.1')
 
 data1= pd.read_csv('DataFilter1.csv', low_memory= False)
 data2= pd.read_csv('DataFilter2.csv', low_memory= False)
