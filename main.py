@@ -33,13 +33,8 @@ knn_model = NearestNeighbors(metric='cosine', algorithm='brute')
 # Entrenar el modelo
 knn_model.fit(tfidf_matrix)
 
-#Crea todo el dataset en la api
-@app.get("/dataframe", response_model=List[dict])
-def get_dataframe():
-    return data.to_dict(orient='records')
 
-
-@app.get("/dataframe/month/{mes}", response_model=List)
+@app.get("/month/{mes}", response_model=List)
 def cantidad_filmaciones_mes(mes:str):
     def get_month(mes):
       meses = {
@@ -62,7 +57,7 @@ def cantidad_filmaciones_mes(mes:str):
 
     return [f'{N_movies} películas fueron estrenadas en el mes de {mes}']
 
-@app.get('/dataframe/day/{dia}', response_model= List)
+@app.get('/day/{dia}', response_model= List)
 def cantidad_filmaciones_dia(dia:str):
     def get_day(dia):
       DiaSemana = {
@@ -80,13 +75,13 @@ def cantidad_filmaciones_dia(dia:str):
 
     return [f'{N_movies} películas fueron estrenadas en los días {dia}']
 
-@app.get('/dataframe/score/{title}', response_model= List)
+@app.get('/score/{title}', response_model= List)
 def score_titulo(title:str):
   year= data[data['title'] == title]['release_year'][0]
   score= data[data['title'] == title]['popularity'][0]
   return [f'La película {title} fue estrenada en el año {year} con un score/popularidad de {score}']
 
-@app.get('/dataframe/votes/{title}', response_model= List)
+@app.get('/votes/{title}', response_model= List)
 def votos_titulo(title:str):
     TotV= data[data['title'] == title]['vote_count'][0]
     TotM= data[data['title'] == title]['vote_average'][0]
@@ -96,7 +91,7 @@ def votos_titulo(title:str):
     else:
         return [f'La película {title} no cuenta con 2000 valoraciones']
 
-@app.get('/dataframe/actor/{name}', response_model= List)
+@app.get('/actor/{name}', response_model= List)
 def get_actor(name:str):
   Filter = data['cast'].apply(lambda x: isinstance(x, str) and name in x.split(', '))
   dataF= data[Filter]
@@ -106,7 +101,7 @@ def get_actor(name:str):
 
   return[f'El actor {name} ha participado de {NMov} cantidad de filmaciones, el mismo ha conseguido un retorno de {round(Ret, 3)} con un promedio de {round(RetM, 3)} por filmación']
   
-@app.get("/dataframe/director/{director}", response_model= List)
+@app.get("/director/{director}", response_model= List)
 def get_director(director:str):
     director_films = data[data['director'] == director]
     total_return = director_films['return'][np.isfinite(director_films['return'])].sum()
@@ -116,7 +111,7 @@ def get_director(director:str):
     Restp = {'director': [director],'titulo': list(director_films['title']),'fecha': list(director_films['release_date']),'retorno': [round(total_return, 3)],'presupuesto': [presupuesto],'recaudación': [recaudacion]}
     return [f'{Restp}']
 
-@app.get("/dataframe/Recomienda/{title}", response_model= List)
+@app.get("/Recomienda/{title}", response_model= List)
 def recomendacion(title:str):
   # Obtener el índice de la película
   idx = dataMl[dataMl['title'] == title].index[0]
